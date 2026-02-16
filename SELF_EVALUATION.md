@@ -1,35 +1,23 @@
-# Self-Evaluation Guide for Practice Problems
+# Self-Evaluation Guide for Design Patterns
 
-Use this guide to check your solutions. A good implementation should meet these criteria.
+Use this guide to self-assess your practice solutions. A robust implementation of any design pattern should meet these general quality criteria.
 
-## General Principles
+## General Design Quality
 
-- [ ] **No `if/else` checks for types in client code**: The client should not need to check `if type == "A"` to use the object.
-- [ ] **Unified Interface**: All products (e.g., `EmailNotifier`, `SMSNotifier`) must have the exact same method signatures.
-- [ ] **Duck Typing / Protocols**: The classes don't need to inherit from a base class, but they must satisfy the shared Protocol.
-- [ ] **Factory Encapsulation**: The complex creation logic (e.g., deciding which class to instantiate) should be hidden inside the Factory.
+- [ ] **Client Decoupling**: Does the client code work primarily with interfaces/abstractions rather than concrete classes?
+- [ ] **Open/Closed Principle**: Can you add a new variation (e.g., a new product type) without modifying existing client logic?
+- [ ] **Single Responsibility**: Does each class have one clear job? (e.g., a Factory creates, a Product performs the action).
+- [ ] **No Leaky Abstractions**: Do all concrete implementations share the exact same method signatures? The client should not need to pass different arguments based on the specific type it received.
 
-## Specific Pattern Checklists
+## Implementation Checklist
 
-### Factory Pattern
-- [ ] **Does the Factory return a generic interface?** The return type hint should be the Protocol (e.g., `-> Notifier`), not a concrete class.
-- [ ] **Is the Client isolated?** The code calling the factory should not import the concrete classes (`EmailNotifier`, `SMSNotifier`).
-- [ ] **Can you add a new type?** Adding a new type (e.g., `SlackNotifier`) should only require changing the Factory, not the Client code.
+- [ ] **Unified Interface**: Use Protocols or Abstract Base Classes to enforce a common interface for all interchangeable parts.
+- [ ] **Encapsulated Complexity**: Complex logic (like `if/else` chains for creation) should be hidden within a Factory or Builder, not exposed in the `main` execution block.
+- [ ] **Type Safety**: Are return types hinted as the abstract interface rather than a specific concrete class?
+- [ ] **Testability**: Can you verify the behavior with simple assertions or print statements without needing extensive setup?
 
-### Abstract Factory
-- [ ] **Are there families of products?** (e.g., `WindowsButton` + `WindowsCheckbox` vs `MacButton` + `MacCheckbox`).
-- [ ] **Does the client use the factory abstractly?** `factory.create_button()` should return the right button for the current OS/theme without the client asking for it specifically.
+## Common Red Flags
 
-### Builder Pattern
-- [ ] **Is construction separated from representation?** Can you reuse the same construction steps to build different object representations?
-- [ ] **Does it handle complex objects?** Use this when a constructor would have too many parameters (telescoping constructor problem).
-
-### Singleton (Borg/Module)
-- [ ] **Is state shared?** If you create two instances, do they share the same data?
-- [ ] **Is it thread-safe?** (If applicable).
-
-## Common Mistakes to Avoid
-
-1.  **Leaky Abstractions**: If `EmailNotifier.send()` takes `subject` but `SMSNotifier.send()` takes `number`, your interface is broken.
-2.  **Factory doing too much**: The factory should create objects, not run their business logic.
-3.  **Client instantiation**: If you see `MyClass()` in the client code (outside the factory), you bypassed the pattern.
+1.  **Type Checking in Client**: If you see `if isinstance(obj, ConcreteType):` in your usage code, the abstraction has failed.
+2.  **Inconsistent Methods**: If one class has `send(msg)` and another has `send(msg, recipient)`, they are not interchangeable.
+3.  **Hardcoded Dependencies**: The client code should not directly instantiate concrete helper classes if the pattern is meant to abstract them.
