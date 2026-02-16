@@ -11,14 +11,12 @@ based on a configuration string. We WON'T use real databases.
 The "connection" object should just interpret query strings differently.
 
 Requirements:
-1.  Define a `Database` interface with `connect()` and `execute(query)`.
-2.  Create `SQLiteDatabase` and `MySQLDatabase` classes.
-    - `SQLiteConnection`'s execute() should print: "SQLite executing: [query]"
-    - `MySQLConnection`'s execute() should print: "MySQL executing: [query]"
-3.  Create a `DatabaseFactory` that takes a "connection_string" (url).
-    - If url starts with "sqlite://", return SQLiteDatabase.
-    - If url starts with "mysql://", return MySQLDatabase.
-4.  Demonstrate connecting simulating a query execution.
+1.  Implement a factory that parses a connection string (URL) and returns
+    the appropriate database connection object.
+    - e.g. "sqlite://..." -> SQLite Connection
+    - e.g. "mysql://..." -> MySQL Connection
+2.  The client code should treat all connections uniformly (e.g. `connect()`, `execute()`).
+3.  Demonstrate connecting to both types and simulating a query execution.
 
 Constraints & Tips:
 - No `sqlite3` or `pymysql` imports! Just classes and print.

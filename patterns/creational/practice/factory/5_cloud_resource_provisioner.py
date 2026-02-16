@@ -6,26 +6,21 @@ Cloud Resource Provisioner (Simulation)
 ---------------------------------------
 
 Simulate provisioning resources (Storage, Compute) on different Clouds (AWS, Google).
-We need a "Factory of Factories" (Abstract Factory hint, but doable with simple Factory logic).
+We need a flexible system to create these resources without coupling the client
+to specific provider classes.
 
-Goal: Request a "storage" resource for "aws", and get an "AWSStorage" object.
+Goal: Request a "storage" resource for "aws", and get an AWS-specific storage object.
 
 Requirements:
-1.  Define simple classes: `AWSStorage`, `GoogleStorage`, `AWSCompute`, `GoogleCompute`.
-    - Each has a `status()` method returning e.g., "AWS Storage Bucket Online".
-2.  Create a `CloudFactory` with a static method `get_factory(provider)`.
-    - Returns an `AWSFactory` or `GoogleFactory`.
-3.  `AWSFactory` has `create_resource(type)` returning AWS objects.
-4.  `GoogleFactory` has `create_resource(type)` returning Google objects.
-5.  Client Code:
-    - Get AWS factory.
-    - Create "compute".
-    - Print status.
+1.  Design a system that can handle multiple providers (AWS, Google) and multiple
+    resource types (Compute, Storage).
+2.  The client should be able to specify the provider and resource type, and
+    get the correct object back.
+3.  The text output should clearly show which provider and resource was created.
 
 Constraints & Tips:
 - This touches on Abstract Factory but focuses on the creation logic.
-- Keep classes empty except for the `status()` print method.
-- "Provisioning" just means creating the object.
+- "Provisioning" just means creating the object and printing its status.
 
 Example Output:
 ---------------

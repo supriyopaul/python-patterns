@@ -11,16 +11,14 @@ We want to simulate sending these messages without real APIs.
 The system receives the preferred channel and a message, then "sends" it.
 
 Requirements:
-1.  Define a `Notifier` interface with a `send(message)` method.
-2.  Create `EmailNotifier`, `SMSNotifier`, and `PushNotifier`.
-    - `send(message)` should print: "Sending Email: [message]", etc.
-3.  Create a `NotificationFactory` that takes a channel name (e.g., "email")
-    and returns the correct notifier.
-4.  Demonstrate usage: Get a notifier for "sms" and send "Hello World".
+1.  Design a system where the client code can request a notifier for a specific
+    channel (e.g., "email", "sms") without knowing the concrete class.
+2.  Each notifier should handle the "sending" action (simulated with print).
+3.  Demonstrate usage: Get a notifier for "sms" and send "Hello World".
 
 Constraints & Tips:
 - No real APIs needed. Just use `print()`.
-- Handle invalid channel names gracefully (e.g., raise ValueError).
+- Handle invalid channel names gracefully.
 
 Example Output:
 ---------------
